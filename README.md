@@ -1,127 +1,29 @@
-# ForDownloads
-Here is an example for JUnit Test
+停车场
 
+迭代一
 
-    import length.*;
-    import lengthTransformStrategy.Transform2Inch;
-    import lengthTransformStrategy.Transform2Mile;
-    import lengthTransformStrategy.Transform2Yard;
-    import lengthTransformStrategy.Transform2Feet;
-    import org.junit.Before;
-    import org.junit.Test;
-    import static junit.framework.Assert.*;
-    import static org.hamcrest.MatcherAssert.assertThat;
-    import static org.hamcrest.core.Is.is;
+需求列表：
 
-    public class LengthTransformerTest {
+需求1： 有一个停车场和管理员，管理员可以存放和取回客人的车辆；
 
-    Transform2Yard transform2Yard;
-    Transform2Feet transform2Feet;
-    Transform2Inch transform2Inch;
-    Transform2Mile transform2Mile;
+需求2： 如果停车场有空位，则管理员允许客人停车
 
-    Mile mile;
-    Yard yard;
-    Feet feet;
-    Inch inch;
+需求3： 停车场存在的车辆可以离开停车场，并恢复所占车位
 
-    @Before
-    public void setUp() throws Exception {
-        transform2Yard = new Transform2Yard();
-        transform2Feet = new Transform2Feet();
-        transform2Mile = new Transform2Mile();
-        transform2Inch = new Transform2Inch();
-        mile = new Mile(1);
-        yard = new Yard(1);
-        feet = new Feet(1);
-        inch = new Inch(1);
-    }
+词汇表： 停车场：Parking Lot 泊车：Park 离场：Depart 管理员：Admin
 
-    @Test(expected = IllegalArgumentException.class)
-    public void 初始化负一Mile时抛出异常() {
-        new Mile(-1);
-    }
+迭代二
 
-    @Test(expected = IllegalArgumentException.class)
-    public void 初始化负一Yard时抛出异常() {
-        new Yard(-1);
-    }
+需求列表：
 
-    @Test
-    public void 一Mile与1760Yard相等() {
-        assertTrue(mile.equals(LengthTransformer.unitTransform(new Yard(1760), transform2Mile)));
-    }
+需求1：停车场变成多个，管理员按顺序停放车辆，即一个停车场满了再放入下一个停车场
 
-    @Test
-    public void 一760Yard与1Mile相等() {
-        LengthUnit yard = LengthTransformer.unitTransform(mile, transform2Yard);
-        assertTrue(new Yard(1760).equals(yard));
-    }
+需求2：停车管理员按照哪个停车场空位多将车放入哪个停车场
 
-    @Test
-    public void 一761Yard不等于1Mile() {
-        assertFalse(new Yard(1761).lengthUnitCompare(mile));
-    }
+需求3：停车管理员按照哪个停车场空置率大将车放入哪个停车场
 
-    @Test
-    public void 一759Yard不等于1Mile() {
-        assertFalse(new Yard(1759).lengthUnitCompare(mile));
-    }
+迭代三
 
-    @Test
-    public void 一Mie不等于1759Yard() {
-        assertFalse(mile.lengthUnitCompare(new Yard(1759)));
-    }
-
-    @Test
-    public void 一Mie不等于1761Yard() {
-        assertFalse(new Mile(1).lengthUnitCompare(new Yard(1761)));
-    }
-
-    @Test
-    public void 三Feet等于1Yard() throws Exception {
-        assertTrue(new Feet(3).equals(LengthTransformer.unitTransform(yard, transform2Feet)));
-    }
-
-    @Test
-    public void 一Yard不等于4Feet() throws Exception {
-        assertFalse(new Feet(4).equals(LengthTransformer.unitTransform(yard, transform2Feet)));
-    }
-
-    @Test
-    public void 一Yard不等于2Feet() throws Exception {
-        assertFalse(new Feet(2).equals(LengthTransformer.unitTransform(yard, transform2Feet)));
-    }
-
-    @Test
-    public void 一Mile等于5280Feet() throws Exception {
-        assertTrue(mile.equals(LengthTransformer.unitTransform(new Feet(5280), transform2Mile)));
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void 初始化负一Feet时抛出异常() {
-        new Feet(-1);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void 初始化负一Inch时抛出异常() {
-        new Inch(-1);
-    }
-
-    @Test
-    public void 一Mile等于63360Inch() throws Exception {
-        assertTrue(new Inch(63360).equals(LengthTransformer.unitTransform(mile, transform2Inch)));
-    }
-
-    @Test
-    public void 一Yard等于36Inch() throws Exception {
-        assertTrue(new Inch(36).equals(LengthTransformer.unitTransform(yard, transform2Inch)));
-    }
-
-    @Test
-    public void 一Feet等于12Inch() throws Exception {
-        assertTrue(new Inch(12).equals(LengthTransformer.unitTransform(feet, transform2Inch)));
-    }
-
-}
-
+需求：扩建为多个停车楼，每个停车楼有多个停车场，每个停车楼有一个停车管理员，
+原先的管理员升职为经理，经理可以按照迭代二的任意策略将车辆分配给某个停车管理员，
+管理员可以按照迭代二的任意策略停放车辆

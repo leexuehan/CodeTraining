@@ -1,6 +1,10 @@
+package roles;
+
+import java.util.Objects;
 
 public class Car {
     private String carId;
+
     public Car(String carId) {
         this.carId = carId;
     }
@@ -10,6 +14,6 @@ public class Car {
     }
 
     public boolean equals(Car car){
-        return this.getCarId() == car.getCarId();
+        return Objects.equals(this.getCarId(), car.getCarId());
     }
 }
